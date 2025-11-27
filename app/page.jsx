@@ -5,6 +5,7 @@ import { getBooks } from '@/lib/actions'
 import Header1 from '@/components/ui/motion-h1';
 import Community from '@/components/ui/community';
 import FeaturedBooks from '@/components/ui/featuredbooks';
+import SearchBar from '@/components/SearchBar';
 
 export default async function Home() {
     // const session = await getServerSession(authOptions)
@@ -36,22 +37,7 @@ export default async function Home() {
             Access books, journals, e‑resources, and curated learning experiences.
           </p>
 
-          <div className="flex justify-center items-center gap-3 max-w-xl mx-auto">
-            <Autocomplete
-              type="text"
-              placeholder="Search for anything..."
-              options={books.map((book) => book.title)}
-              className="flex-1 px-5 py-3 border border-neutral-300 rounded-lg bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-500"
-
-          
-            />
-            
-            <button
-              className="px-7 py-3 bg-neutral-800 text-neutral-50 rounded-lg hover:bg-neutral-900 transition shadow"
-            >
-              Search
-            </button>
-          </div>
+          <SearchBar books={books} />
         </div>
       </section>
 
