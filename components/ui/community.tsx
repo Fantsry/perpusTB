@@ -7,13 +7,13 @@ import { motion } from "motion/react"
 export default function Community() {
   return (
     <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl font-light mb-12">What We Offer</h2>
+          <h2 className="text-4xl font-light mb-12">Layanan yang Tersedia</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              'Book borrowing & returns',
-              'Digital e‑books & journals',
-              'Quiet study rooms',
-              'Community events & workshops',
+              'Peminjaman & pengembalian buku',
+              'Akses e-book dan jurnal digital',
+              'Ruang baca & ruang belajar',
+              'Acara literasi & kegiatan komunitas',
             ].map((item, i) => (
               <motion.div
                 key={i}

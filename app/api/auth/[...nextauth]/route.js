@@ -1,59 +1,60 @@
-import { getUserbyEmail, getUsers } from "@/lib/actions"
-import { compare } from "bcryptjs"
-import NextAuth from "next-auth"
-import CredentialsProvider from "next-auth/providers/credentials"
+import { getUserbyEmail } from "@/lib/actions";
+import { compare } from "bcryptjs";
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions = {
   pages: {
-      signIn: "/login"
+    signIn: "/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
-      async authorize(credentials, req) {
-          const email = credentials?.email;
-          const password = credentials?.password;
+      async authorize(credentials) {
+        const email = credentials?.email;
+        const password = credentials?.password;
 
-          const user = await getUserbyEmail(email);
-          
-          const isValid = await compare(password, user.password);
+        const user = await getUserbyEmail(email);
 
-          if (!isValid) return null;
+        if (!user) return null;
 
-            return{
-                    id: user.id, 
-                    email: user.email,
-                    name: user.username,
-                    image: user.image
-            };
-          }
-    })
+        const isValid = await compare(password, user.password);
+        if (!isValid) return null;
+
+        return {
+          id: user.user_id,
+          email: user.email,
+          name: user.username,
+          image: user.image,
+          role: user.role,
+        };
+      },
+    }),
   ],
+
   callbacks: {
-    // Using the `...rest` parameter to be able to narrow down the type based on `trigger`
-    jwt({ token, trigger, session, user }) {
-      if (trigger === "update" && session?.name) {
-        // Note, that `session` can be any arbitrary object, remember to validate it!
-        token.name = session.name
-      }
-
+    jwt({ token, user }) {
       if (user) {
-        token.image = user?.image;
+        token.id = user.id;
+        token.email = user.email;
+        token.name = user.name;
+        token.image = user.image;
+        token.role = user.role;
       }
-
-      return token
+      return token;
     },
-    async session({ session, token, user }) {
-      // Send properties to the client, like an access_token and user id from a provider.
-      session.accessToken = token.accessToken
-      session.user.id = token.id
-      session.user.email = token.image
-      return session
-    }
-  }
-}
 
-const handler = NextAuth(authOptions)
+    session({ session, token }) {
+      session.user.id = token.id;
+      session.user.email = token.email;     
+      session.user.name = token.name;      
+      session.user.image = token.image;     
+      session.user.role = token.role;
 
-export { handler as GET, handler as POST }
+      return session;
+    },
+  },
+};
 
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };

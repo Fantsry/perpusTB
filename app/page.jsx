@@ -6,6 +6,8 @@ import Header1 from '@/components/ui/motion-h1';
 import Community from '@/components/ui/community';
 import FeaturedBooks from '@/components/ui/featuredbooks';
 import SearchBar from '@/components/SearchBar';
+import Link from 'next/link';
+import NavBar from '@/components/NavBar';
 
 export default async function Home() {
     // const session = await getServerSession(authOptions)
@@ -16,16 +18,8 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900">
       {/* Header */}
-      <header className="bg-neutral-900 text-neutral-50 py-6 px-8 flex items-center justify-between sticky top-0 z-50 shadow-lg">
-        <h1 className="text-3xl font-light tracking-wide">City Library</h1>
-        <nav className="space-x-8 text-lg opacity-90">
-          <a href="#about" className="hover:opacity-60 transition">About</a>
-          <a href="#services" className="hover:opacity-60 transition">Services</a>
-          <a href="#featured" className="hover:opacity-60 transition">Books</a>
-          <a href="#contact" className="hover:opacity-60 transition">Contact</a>
-        </nav>
-      </header>
-
+      
+      <NavBar />
       {/* Hero Section */}
       <section className="relative w-full bg-neutral-100 overflow-hidden">
         <div className="absolute inset-0 bg-neutral-900 opacity-20 mix-blend-multiply"></div>
@@ -34,7 +28,7 @@ export default async function Home() {
           <Header1 />
 
           <p className="text-xl text-neutral-600 max-w-2xl mx-auto mb-10">
-            Access books, journals, e‑resources, and curated learning experiences.
+            Akses buku, jurnal, sumber daya elektronik, dan pengalaman belajar yang dikurasi.
           </p>
 
           <SearchBar books={books} />
@@ -61,7 +55,7 @@ export default async function Home() {
 
       {/* Footer */}
       <footer id="contact" className="bg-neutral-900 text-neutral-50 py-10 px-6 text-center mt-10">
-        <p className="opacity-80 mb-2">&copy; 2025 City Library</p>
+        <p className="opacity-80 mb-2">&copy; Biblioteca</p>
         <p className="opacity-80">All rights reserved | <a className="underline hover:opacity-60" href="#">Privacy Policy</a></p>
       </footer>
     </div>

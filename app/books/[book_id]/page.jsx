@@ -6,11 +6,18 @@ import AnimatedButton from '@/components/ui/AnimatedButton';
 import AnimatedContainer from '@/components/ui/AnimatedContainer';
 import AnimatedCover from '@/components/ui/AnimatedCover';
 import AnimatedInfo from '@/components/ui/AnimatedInfo';
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 
 
 
 
 export default async function BookDetailPage({ params }) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/login");
+  }
   const { book_id } = await params
   const book = await getBookById(book_id)
   console.log("PARAMS:", params)
@@ -20,7 +27,7 @@ console.log("ID:", book_id)
   if (!book) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-neutral-900 text-neutral-50">
-        <h1 className="text-3xl">Book not found</h1>
+        <h1 className="text-3xl">Book tidak ada</h1>
       </div>
     )
   }

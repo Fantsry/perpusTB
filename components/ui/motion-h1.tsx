@@ -12,7 +12,7 @@ export default function Header1() {
       transition={{ duration: 0.6 }}
       className="text-6xl font-light text-neutral-900 mb-6"
     >
-      Your Digital Knowledge Hub
+      Jelajahi Dunia Pengetahuan
     </motion.h1>
   )
 }

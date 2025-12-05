@@ -16,11 +16,13 @@ export default function SearchBar({ books }) {
   return (
     <div className="flex justify-center items-center gap-3 max-w-xl mx-auto">
       <Autocomplete
-        placeholder="Search for anything..."
+        placeholder="Cari buku yang ingin kamu pinjam..."
         options={books}
         getOptionLabel={(b) => b.title}
         onChange={(e, newValue) => setSelectedBook(newValue)}
         className="flex-1 px-5 py-3 border border-neutral-300 rounded-lg bg-neutral-50"
+        autoComplete="true"
+        autoSelect="true"
       />
 
       <button

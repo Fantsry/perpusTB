@@ -43,7 +43,7 @@ export default function LoginForm({
     }
 
     alert("Login Sukses")
-    redirect("/dashboard")
+    redirect("/")
   }
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

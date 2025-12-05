@@ -4,6 +4,7 @@ import Link from "next/link";
 import { signIn } from "next-auth/react"
 import { redirect } from "next/navigation";
 import LoginForm from "@/components/login-form";
+import bcrypt from "bcryptjs";
 
 export default function LoginPage() {
     async function handleLogin(formData) {
