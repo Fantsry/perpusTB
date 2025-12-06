@@ -97,7 +97,7 @@ const handleSubmit = async (e) => {
     }
 
     // Send to API dengan error handling yang lebih baik
-    const response = await fetch('/api/books/upload', {
+    const response = await fetch('/api/upload', {
       method: 'POST',
       body: formDataToSend
     })
@@ -145,11 +145,11 @@ const handleSubmit = async (e) => {
       fileInputRef.current.value = ''
     }
 
-    // Redirect after 2 seconds
+    // Redirect after 1.5 seconds
     setTimeout(() => {
       router.push('/dashboard')
       router.refresh()
-    }, 2000)
+    }, 1500)
 
   } catch (error) {
     console.error('Submit error details:', error)

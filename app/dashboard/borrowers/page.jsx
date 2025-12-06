@@ -23,6 +23,16 @@ export default async function BorrowersPage() {
 
     const borrows = await getAllBorrows()
 
+    const formatDate = (date) => {
+      if (!date) return "-"
+      const d = new Date(date)
+      return d.toLocaleDateString('id-ID', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+    }
+
     const getStatusBadge = (status) => {
       const baseClass = "px-3 py-1 rounded-full text-sm font-medium"
       switch(status) {
@@ -58,7 +68,6 @@ export default async function BorrowersPage() {
                 <TableHead>Email</TableHead>
                 <TableHead>Judul Buku</TableHead>
                 <TableHead>Tanggal Pinjam</TableHead>
-                <TableHead>Tanggal Jatuh Tempo</TableHead>
                 <TableHead>Tanggal Kembali</TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
@@ -72,7 +81,6 @@ export default async function BorrowersPage() {
                     <TableCell>{borrow.email}</TableCell>
                     <TableCell>{borrow.title}</TableCell>
                     <TableCell>{formatDate(borrow.borrow_date)}</TableCell>
-                    <TableCell>{formatDate(borrow.due_date)}</TableCell>
                     <TableCell>{formatDate(borrow.return_date)}</TableCell>
                     <TableCell>
                       <span className={getStatusBadge(borrow.status)}>
@@ -85,7 +93,7 @@ export default async function BorrowersPage() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={8} className="text-center py-8 text-gray-500">
+                  <TableCell colSpan={7} className="text-center py-8 text-gray-500">
                     Tidak ada data peminjaman
                   </TableCell>
                 </TableRow>

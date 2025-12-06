@@ -43,7 +43,7 @@ export default async function ProfilePage() {
         {/* Header */}
         <div className="bg-white border-b border-neutral-200">
           <div className="max-w-2xl mx-auto px-6 py-6">
-            <Link href="/books" className="text-blue-500 hover:text-blue-600 mb-4 inline-block">
+            <Link href="/books/list" className="text-blue-500 hover:text-blue-600 mb-4 inline-block">
               ← Kembali ke Koleksi
             </Link>
             <h1 className="text-3xl font-bold text-neutral-900 mb-2">Profil Saya</h1>

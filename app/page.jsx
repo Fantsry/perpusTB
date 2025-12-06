@@ -37,9 +37,9 @@ export default async function Home() {
 
       {/* About Section */}
       <section id="about" className="py-20 px-6 max-w-5xl mx-auto text-center">
-        <h2 className="text-4xl font-light mb-6">About City Library</h2>
+        <h2 className="text-4xl font-light mb-6">Tentang Blibioteca</h2>
         <p className="text-lg text-neutral-600 leading-relaxed max-w-3xl mx-auto">
-          City Library blends modern digital convenience with the timeless value of reading. From physical books to curated e‑resources, we support students, creators, researchers, and everyday learners.
+        Blibioteca menggabungkan kenyamanan digital modern dengan nilai membaca yang tak lekang oleh waktu. Dari buku fisik hingga e-resources yang terkurasi, kami mendukung pelajar, peneliti, dan para pembelajar sehari-hari.
         </p>
       </section>
 

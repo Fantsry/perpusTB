@@ -1,14 +1,16 @@
-import { getBookById } from "@/lib/actions"
+import { getBookById, checkUserBorrowedBook } from "@/lib/actions"
 import Image from "next/image";
 import React from 'react';
-import { motion } from 'framer-motion';
-import AnimatedButton from '@/components/ui/AnimatedButton';
 import AnimatedContainer from '@/components/ui/AnimatedContainer';
 import AnimatedCover from '@/components/ui/AnimatedCover';
 import AnimatedInfo from '@/components/ui/AnimatedInfo';
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import BorrowButton from "./BorrowButton";
 
 
 
@@ -19,9 +21,12 @@ export default async function BookDetailPage({ params }) {
     redirect("/login");
   }
   const { book_id } = await params
-  const book = await getBookById(book_id)
-  console.log("PARAMS:", params)
-console.log("ID:", book_id)
+  const bookId = parseInt(book_id)
+  const book = await getBookById(bookId)
+  const user = session.user
+  
+  // Check if user already borrowed this book
+  const alreadyBorrowed = await checkUserBorrowedBook(user.id, bookId)
 
 
   if (!book) {
@@ -98,21 +103,46 @@ console.log("ID:", book_id)
                     </p>
                   </div>
 
-                  {/* Archive Note */}
+                  {/* Status */}
                   <div className="pt-4 border-t border-neutral-200">
-                    <p className="text-neutral-500 text-sm italic">
-                      This book is part of our City Library archive.
-                    </p>
+                    <div className="flex items-center gap-3 mb-4">
+                      <p className="text-sm uppercase tracking-wider text-neutral-500 font-medium">Status</p>
+                      <Badge className="bg-green-500 text-white">Tersedia</Badge>
+                      {alreadyBorrowed && (
+                        <Badge className="bg-blue-500 text-white">Sudah Dipinjam</Badge>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Back Button */}
-                  <div className="pt-2">
-                    <AnimatedButton href="/">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                      </svg>
-                      Back to Home
-                    </AnimatedButton>
+                  {/* Action Buttons */}
+                  <div className="pt-4 border-t border-neutral-200 space-y-3">
+                    {user.role !== 'admin' && (
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        {alreadyBorrowed ? (
+                          <Link href="/borrows" className="flex-1">
+                            <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white">
+                              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                              </svg>
+                              Lihat Peminjaman
+                            </Button>
+                          </Link>
+                        ) : (
+                          <BorrowButton userId={user.id} bookId={bookId} />
+                        )}
+                      </div>
+                    )}
+                    
+                    <div className="flex gap-3">
+                      <Link href="/books/list" className="flex-1">
+                        <Button variant="outline" className="w-full">
+                          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                          </svg>
+                          Kembali ke Daftar Buku
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
 
                 </AnimatedInfo>
@@ -124,4 +154,3 @@ console.log("ID:", book_id)
     </div>
   );
 }
-

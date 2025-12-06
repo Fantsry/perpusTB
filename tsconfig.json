@@ -8,7 +8,7 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -35,14 +35,10 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts",
-    "components/LogoutButton.jsx",
-    "app/dashboard/page.jsx",
-    "app/login/page.jsx",
-    "app/registration/page.tsx",
-    "app/page.jsx",
-    "components/SearchBar.jsx",
-    ".next\\dev/types/**/*.ts",
-    ".next\\dev/types/**/*.ts"
+    "app/**/*.tsx",
+    "app/**/*.ts",
+    "components/**/*.jsx",
+    "components/**/*.tsx"
   ],
   "exclude": [
     "node_modules"

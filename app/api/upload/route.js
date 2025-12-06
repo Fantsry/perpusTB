@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { writeFile, mkdir } from 'fs/promises'
 import path from 'path'
-import { connection } from '@/lib/db'
+import connection from '@/lib/database'
 import { v4 as uuidv4 } from 'uuid'
 
 export async function POST(request) {
@@ -78,17 +78,22 @@ export async function POST(request) {
 
     // Save to database
     const [result] = await connection.execute(
-      `INSERT INTO books (title, author, publisher, genre, description, image, available) 
-       VALUES (?, ?, ?, ?, ?, ?, 1)`,
+      `INSERT INTO books (title, author, publisher, genre, description, image) 
+       VALUES (?, ?, ?, ?, ?, ?)`,
       [title, author, publisher, genre || 'Unknown', description || '', imagePath]
     )
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       message: 'Buku berhasil ditambahkan',
       bookId: result.insertId,
       imagePath: imagePath
     })
+    
+    // Revalidate paths
+    response.headers.set('Cache-Control', 'no-store')
+    
+    return response
 
   } catch (error) {
     console.error('Error uploading book:', error)

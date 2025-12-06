@@ -19,19 +19,20 @@ import { redirect } from "next/navigation"
 export default async function Dashboard() {
     const session = await getServerSession(authOptions)
     
-    // Check if user is authenticated
     if (!session) {
       redirect('/login')
     }
 
     const user = session.user
     
-    // Check if user is admin
+
     if (user.role !== 'admin') {
       redirect('/profile')
     }
 
     const books = await getBooks();
+    const sortedBooks = books.sort((a, b) => a.book_id - b.book_id)
+
 
     async function handleDeleteBook(bookId) {
       "use server"
@@ -42,7 +43,17 @@ export default async function Dashboard() {
     return(
         <div className="p-8">
           <div className="mb-8">
+          <Link 
+              href="/" 
+              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6 group"
+            >
+              <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Kembali
+            </Link>
             <div className="flex items-center justify-between mb-4">
+              
               <div className="flex items-center gap-4">
                 <Image
                   src={user.image ? `/${user.image}` : "/profile.jpg"}
@@ -90,7 +101,7 @@ export default async function Dashboard() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {books && books.map((data) => {
+                {sortedBooks.map((data) => {
                   return(
                     <TableRow key={data.book_id}>
                       <TableCell className="font-medium">{data.book_id}</TableCell>
